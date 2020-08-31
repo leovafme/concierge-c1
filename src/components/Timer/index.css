@@ -6,3 +6,7 @@
 .timer--container-actions {
     text-align: center;
 }
+
+.timer--container-time-elapsed {
+    font-size: 20px;
+}
