@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import moment from 'moment';
 import { Button } from 'antd';
 import { Row, Col } from 'antd';
@@ -6,15 +6,33 @@ import './index.css'
 
 function Timer() {
   const [myTime, setMyTime] = useState("00:00");
+  const [running, setRunning] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const date = moment().format('mm:ss');
-      setMyTime(`${date}`);
-    }, 1000);
+    let timer:any = null;
+    if (running) {
+      timer = setInterval(() => {
+        const date = moment().format('mm:ss');
+        setMyTime(`${date}`);
+      }, 1000);
+    } else if (!running) {
+      clearInterval(timer);
+    }
+    return () => clearInterval(timer);
+  }, [running]);
 
-    return () => clearTimeout(timer);
-  }, [myTime]);
+  const startTimer = () => {
+    setRunning(true);
+  }
+
+  const stopTimer = () => {
+    setRunning(false);
+  }
+
+  const cleanTimer = () => {
+    setMyTime("00:00");
+    setRunning(false);
+  }
 
   return (
     <>
@@ -23,11 +41,11 @@ function Timer() {
       </Row>
       <Row>
         <Col span={24} className="timer--container-actions">
-          <Button type="primary">Start</Button>
+          <Button disabled={running} type="primary" onClick={startTimer}>Start</Button>
           {" "}
-          <Button>Stop</Button>
+          <Button onClick={stopTimer} danger disabled={!running}>Stop</Button>
           {" "}
-          <Button>Clean</Button>  
+          <Button onClick={cleanTimer}>Clean</Button>  
         </Col>
       </Row>
     </>
