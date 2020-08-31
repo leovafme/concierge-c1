@@ -14,6 +14,5 @@ it('defined buttons', () => {
 
 it('timer init text', () => {
     const wrapper = render(<Timer />);
-    expect(wrapper.find('.timer--container-tim').first().text()).toEqual("");
+    expect(wrapper.find('.timer--container-time').first().text()).toEqual("00:00:00");
 });
-
