@@ -1,37 +1,51 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import moment from 'moment';
-import { Button } from 'antd';
-import { Row, Col } from 'antd';
+import React, { useState, useEffect } from 'react'
+import moment from 'moment'
+import { Button } from 'antd'
+import { Row, Col } from 'antd'
 import './index.css'
 
 function Timer() {
-  const [myTime, setMyTime] = useState("00:00");
-  const [running, setRunning] = useState(false);
+  const [myTime, setMyTime] = useState('00:00:00')
+  const [running, setRunning] = useState(false)
 
+  /**
+   * listen when running changed
+   */
   useEffect(() => {
-    let timer:any = null;
+    let timer:any = null
+
     if (running) {
       timer = setInterval(() => {
-        const date = moment().format('mm:ss');
-        setMyTime(`${date}`);
-      }, 1000);
+        const date = moment().format('HH:mm:ss')
+        setMyTime(`${date}`)
+      }, 1000)
     } else if (!running) {
-      clearInterval(timer);
+      clearInterval(timer)
     }
-    return () => clearInterval(timer);
-  }, [running]);
 
+    return () => clearInterval(timer)
+  }, [running])
+
+  /**
+   * @method startTimer init count hours
+   */
   const startTimer = () => {
-    setRunning(true);
+    setRunning(true)
   }
 
+  /**
+   * @method stopTimer stop momment hours
+   */
   const stopTimer = () => {
-    setRunning(false);
+    setRunning(false)
   }
 
+  /**
+   * @method cleanTimer stop running and clean hours
+   */
   const cleanTimer = () => {
-    setMyTime("00:00");
-    setRunning(false);
+    setMyTime('00:00:00')
+    setRunning(false)
   }
 
   return (
@@ -52,4 +66,4 @@ function Timer() {
   );
 }
 
-export default Timer;
+export default Timer
